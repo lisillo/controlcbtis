@@ -1,7 +1,6 @@
 ﻿services:
   - type: web
     name: controlcbtis
-    env: dotnet
-    buildCommand: "dotnet publish -c Release -o out"
-    startCommand: "dotnet out/controlcbtis.dll"
-    rootDir: controlcbtis
+    runtime: docker
+    plan: free
+    dockerfilePath: ./controlcbtis/Dockerfile
