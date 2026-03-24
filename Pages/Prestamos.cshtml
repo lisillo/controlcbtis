@@ -1,0 +1,217 @@
+﻿@page
+@model controlcbtis.Pages.PrestamosModel
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+    }
+
+    /* CARD */
+    .card {
+        background: white;
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        max-width: 1000px;
+    }
+
+    /* FORM */
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    input, select {
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+        input:focus, select:focus {
+            border-color: #4f46e5;
+            outline: none;
+        }
+
+    /* BOTON */
+    .btn {
+        background: #4f46e5;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background: #4338ca;
+        }
+
+    /* TABLA */
+    .tabla {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+        .tabla th {
+            background: #4f46e5;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .tabla td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tabla tr:hover {
+            background: #f1f5ff;
+        }
+
+    /* SUGERENCIAS */
+    .sugerencias {
+        border: 1px solid #ccc;
+        background: white;
+        list-style: none;
+        padding: 0;
+        margin-top: 5px;
+        border-radius: 8px;
+        max-height: 120px;
+        overflow-y: auto;
+    }
+
+        .sugerencias li {
+            padding: 6px;
+            cursor: pointer;
+        }
+
+            .sugerencias li:hover {
+                background: #f1f5ff;
+            }
+</style>
+
+<div class="card">
+    <h2> Préstamos</h2>
+
+    <form method="post" class="form-grid">
+
+        <div class="form-group">
+            <label>Buscar alumno</label>
+            <input type="text" id="buscarAlumno" placeholder="Escribe el nombre..." autocomplete="off" />
+            <ul id="sugerencias" class="sugerencias"></ul>
+        </div>
+
+        <input type="hidden" id="alumnoSeleccionado" name="NuevoPrestamo.NombreUsuario" />
+
+        <div class="form-group">
+            <label>Alumno</label>
+            <select id="listaAlumnos" asp-for="NuevoPrestamo.NombreUsuario">
+                @foreach (var alumno in Model.ListaAlumnos)
+                {
+                    <option value="@alumno.Nombre">@alumno.Nombre</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Tipo</label>
+            <select asp-for="NuevoPrestamo.TipoUsuario">
+                <option>Alumno</option>
+                <option>Maestro</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Artículo</label>
+            <select asp-for="NuevoPrestamo.Articulo">
+                @foreach (var art in Model.ListaArticulos)
+                {
+                    <option value="@art.Nombre">@art.Nombre</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Fecha de entrega</label>
+            <input type="date" asp-for="NuevoPrestamo.FechaEntrega" required />
+        </div>
+
+        <div>
+            <button type="submit" class="btn">Guardar</button>
+        </div>
+
+    </form>
+</div>
+
+<div class="card">
+    <h3> Lista de Préstamos</h3>
+
+    <table class="tabla">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Artículo</th>
+                <th>Fecha Préstamo</th>
+                <th>Fecha Entrega</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var p in Model.ListaPrestamos)
+            {
+                <tr>
+                    <td>@p.NombreUsuario</td>
+                    <td>@p.TipoUsuario</td>
+                    <td>@p.Articulo</td>
+                    <td>@p.FechaPrestamo</td>
+                    <td>@p.FechaEntrega</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var alumnos = [
+        @foreach (var alumno in Model.ListaAlumnos)
+        {
+                @: "@alumno.Nombre",
+        }
+    ];
+
+    var input = document.getElementById("buscarAlumno");
+    var lista = document.getElementById("sugerencias");
+    var hidden = document.getElementById("alumnoSeleccionado");
+
+    input.addEventListener("keyup", function () {
+        var valor = input.value.toLowerCase();
+        lista.innerHTML = "";
+
+        if (valor === "") return;
+
+        alumnos.forEach(function (alumno) {
+            if (alumno.toLowerCase().includes(valor)) {
+                var li = document.createElement("li");
+                li.textContent = alumno;
+
+                li.onclick = function () {
+                    input.value = alumno;
+                    hidden.value = alumno;
+                    lista.innerHTML = "";
+                };
+
+                lista.appendChild(li);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,173 @@
+﻿@page
+@model controlcbtis.Pages.AlumnosModel
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+    }
+
+    /* CARD */
+    .card {
+        background: white;
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        max-width: 1000px;
+    }
+
+    /* FORM */
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        align-items: end;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    input {
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+        input:focus {
+            border-color: #4f46e5;
+            outline: none;
+        }
+
+    /* BOTONES */
+    .btn {
+        background: #4f46e5;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background: #4338ca;
+        }
+
+    .btn-danger {
+        background: #ef4444;
+    }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+    .btn-edit {
+        background: #22c55e;
+    }
+
+        .btn-edit:hover {
+            background: #16a34a;
+        }
+
+    /* TABLA */
+    .tabla {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+        .tabla th {
+            background: #4f46e5;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .tabla td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tabla tr:hover {
+            background: #f1f5ff;
+        }
+
+    /* FORM INLINE (editar/eliminar) */
+    .inline-form {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        margin-bottom: 5px;
+    }
+</style>
+
+<div class="card">
+    <h2> Registro de Alumnos</h2>
+
+    <form method="post" class="form-grid">
+        <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" asp-for="NuevoAlumno.Nombre" placeholder="Nombre" required />
+        </div>
+
+        <div class="form-group">
+            <label>Grupo</label>
+            <input type="text" asp-for="NuevoAlumno.Grupo" placeholder="Grupo" required />
+        </div>
+
+        <div class="form-group">
+            <label>Matrícula</label>
+            <input type="text" asp-for="NuevoAlumno.Matricula" placeholder="Matrícula" required />
+        </div>
+
+        <div>
+            <button type="submit" class="btn">Guardar</button>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <h3> Lista de Alumnos</h3>
+
+    <table class="tabla">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Grupo</th>
+                <th>Matrícula</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var alumno in Model.ListaAlumnos)
+            {
+                <tr>
+                    <td>@alumno.Nombre</td>
+                    <td>@alumno.Grupo</td>
+                    <td>@alumno.Matricula</td>
+                    <td>
+
+                        <!-- ELIMINAR -->
+                        <form method="post" asp-page-handler="Delete" class="inline-form">
+                            <input type="hidden" name="id" value="@alumno.Id" />
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+
+                        <!-- EDITAR -->
+                        <form method="post" asp-page-handler="Edit" class="inline-form">
+                            <input type="hidden" name="Id" value="@alumno.Id" />
+                            <input type="text" name="Nombre" value="@alumno.Nombre" />
+                            <input type="text" name="Grupo" value="@alumno.Grupo" />
+                            <input type="text" name="Matricula" value="@alumno.Matricula" />
+                            <button type="submit" class="btn btn-edit">Editar</button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

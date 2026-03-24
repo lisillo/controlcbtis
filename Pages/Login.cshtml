@@ -1,0 +1,43 @@
+﻿@page
+@model controlcbtis.Pages.LoginModel
+
+<div class="d-flex justify-content-center align-items-center" style="height: 90vh; background: #f5f7fa;">
+
+    <div class="card shadow-lg p-4" style="width: 350px; border-radius: 15px;">
+
+        <h3 class="text-center mb-4" style="font-weight: 600;">Iniciar Sesión</h3>
+
+        <form method="post">
+
+            <div class="mb-3">
+                <input type="email" asp-for="UsuarioLogin.Correo"
+                       class="form-control"
+                       placeholder="Correo electrónico" required />
+            </div>
+
+            <div class="mb-3">
+                <input type="password" asp-for="UsuarioLogin.Password"
+                       class="form-control"
+                       placeholder="Contraseña" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" style="border-radius: 10px;">
+                Entrar
+            </button>
+
+        </form>
+
+        <p class="text-danger text-center mt-3">@Model.Mensaje</p>
+
+        <hr />
+
+        <p class="text-center" style="font-size: 14px;">
+            ¿No tienes cuenta?
+            <a href="/Registro">Regístrate</a>
+        </p>
+
+    </div>
+</div>
+<p class="text-center" style="font-size: 14px;">
+    LMLV
+</p>

@@ -1,0 +1,47 @@
+﻿@page
+@model controlcbtis.Pages.RegistroModel
+
+<div class="d-flex justify-content-center align-items-center" style="height: 90vh; background: #f5f7fa;">
+
+    <div class="card shadow-lg p-4" style="width: 380px; border-radius: 15px;">
+
+        <h3 class="text-center mb-4" style="font-weight: 600;">Crear Cuenta</h3>
+
+        <form method="post">
+
+            <div class="mb-3">
+                <input type="email" asp-for="NuevoUsuario.Correo"
+                       class="form-control"
+                       placeholder="Correo electrónico" required />
+            </div>
+
+            <div class="mb-3">
+                <input type="password" asp-for="NuevoUsuario.Password"
+                       class="form-control"
+                       placeholder="Contraseña" required />
+            </div>
+
+            <div class="mb-3">
+                <input type="text" asp-for="Clave"
+                       class="form-control"
+                       placeholder="Clave de acceso" required />
+            </div>
+
+            <button type="submit" class="btn btn-success w-100" style="border-radius: 10px;">
+                Registrarse
+            </button>
+
+        </form>
+
+        <p class="text-danger text-center mt-3">@Model.Mensaje</p>
+
+        <hr />
+
+        <p class="text-center" style="font-size: 14px;">
+            ¿Ya tienes cuenta?
+            <a href="/Login">Inicia sesión</a>
+        </p>
+
+    </div>
+
+</div>

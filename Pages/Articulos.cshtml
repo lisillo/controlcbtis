@@ -1,0 +1,155 @@
+﻿@page
+@model controlcbtis.Pages.ArticulosModel
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+    }
+
+    /* CARD */
+    .card {
+        background: white;
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        max-width: 900px;
+    }
+
+    /* FORM */
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        align-items: end;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    input {
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+        input:focus {
+            border-color: #4f46e5;
+            outline: none;
+        }
+
+    /* BOTON */
+    .btn {
+        background: #4f46e5;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background: #4338ca;
+        }
+
+    /* TABLA */
+    .tabla {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+        .tabla th {
+            background: #4f46e5;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .tabla td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tabla tr:hover {
+            background: #f1f5ff;
+        }
+
+    /* BADGE DE STOCK */
+    .stock {
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-size: 13px;
+        display: inline-block;
+    }
+
+    .stock-alto {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .stock-medio {
+        background: #fef9c3;
+        color: #854d0e;
+    }
+
+    .stock-bajo {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+</style>
+
+<div class="card">
+    <h2> Inventario</h2>
+
+    <form method="post" class="form-grid">
+        <div class="form-group">
+            <label>Nombre del artículo</label>
+            <input type="text" asp-for="NuevoArticulo.Nombre" placeholder="Ej: Laptop, Proyector..." required />
+        </div>
+
+        <div class="form-group">
+            <label>Cantidad</label>
+            <input type="number" asp-for="NuevoArticulo.Cantidad" placeholder="Cantidad" required />
+        </div>
+
+        <div>
+            <button type="submit" class="btn">Guardar</button>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <h3> Lista de Artículos</h3>
+
+    <table class="tabla">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var art in Model.ListaArticulos)
+            {
+                <tr>
+                    <td>@art.Nombre</td>
+                    <td>
+                        @{
+                            var clase = art.Cantidad > 10 ? "stock-alto"
+                            : art.Cantidad > 3 ? "stock-medio"
+                            : "stock-bajo";
+                        }
+                        <span class="stock @clase">
+                            @art.Cantidad
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
