@@ -3,4 +3,4 @@
     name: controlcbtis
     runtime: docker
     plan: free
-    dockerfilePath: ./controlcbtis/Dockerfile
+    dockerfilePath: ./Dockerfile
